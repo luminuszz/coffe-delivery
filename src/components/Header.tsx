@@ -20,7 +20,7 @@ const CartButton = () => (
 );
 
 const Header = () => (
-  <header className="flex py-[32px] justify-between items-center">
+  <header className="flex py-[32px] justify-between items-center px-4">
     <img src={LogoImg} alt="logo " />
 
     <aside className="space-x-2 flex ">

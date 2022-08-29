@@ -20,6 +20,7 @@ module.exports = {
         'base-input': '#EDEDED',
         'base-card': '#F3F2F2',
         'background': '#FAFAFA',
+        'base-button-add': '#E6E5E5',
       },
       fontFamily: {
         primary: ['Roboto', 'sans-serif'],

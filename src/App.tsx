@@ -1,89 +1,123 @@
-import BannerImg from "@assets/banner-image.png";
+import CoffeeImage from "@assets/coffe.png";
+import CoffeeCard from "@components/CoffeeCard";
 import Container from "@components/Container";
 import Header from "@components/Header";
-import { Coffee, Icon, Package, ShoppingCart, Timer } from "phosphor-react";
-
-type BenefitProps = {
-  data: {
-    icon: Icon;
-    title: string;
-    color: string;
-  };
-};
-
-const benefits: BenefitProps["data"][] = [
-  {
-    title: "Compra simples e segura",
-    icon: ShoppingCart,
-    color: "#C47F17",
-  },
-  {
-    title: "Embalagem mantém o café intacto",
-    icon: Package,
-    color: "#574F4D",
-  },
-
-  {
-    title: "Entrega rápida e rastreada",
-    icon: Timer,
-    color: "#DBAC2C",
-  },
-
-  {
-    title: "O café chega fresquinho até você",
-    icon: Coffee,
-    color: "#8047F8",
-  },
-];
-
-const Benefit = ({
-  data: { icon: CurrentIcon, color, title },
-}: BenefitProps) => (
-  <div className="flex space-x-3 items-center  ">
-    <div
-      className={`p-2 p-1 bg-[${color}] rounded-full flex justify-center items-center`}
-    >
-      <CurrentIcon weight="fill" color="white" width="20px" height="20px" />
-    </div>
-
-    <span className="flex flex-nowrap text-[16px] text-base-text whitespace-nowrap">
-      {title}
-    </span>
-  </div>
-);
-
-const MainHero = () => (
-  <main className="w-full justify-center flex-col  mt-[95px]">
-    <div className="flex flex-1 justify-center">
-      <div className="w-full max-w-[588px]">
-        <h2 className="text-[48px] font-extrabold font-secondary text-base-title">
-          Encontre o café perfeito para qualquer hora do dia
-        </h2>
-
-        <h4 className="mt-4 w-[80%] text-[20px] leading-[130%] text-base-subtitle">
-          Com o Coffee Delivery você recebe seu café onde estiver , a qualquer
-          hora
-        </h4>
-
-        <div className="mt-[62px] grid gap-[20px] grid-cols-2 grid-rows-2 ">
-          {benefits.map((benefit) => (
-            <Benefit key={benefit.color} data={benefit} />
-          ))}
-        </div>
-      </div>
-
-      <div className=" max-w-[475px] max-h-[360px] ml-[56px]">
-        <img className="w-full h-full" src={BannerImg} alt="banner" />
-      </div>
-    </div>
-  </main>
-);
+import MainHero from "@components/MainHero";
+import { Minus, Plus } from "phosphor-react";
 
 const App = () => (
   <Container>
     <Header />
-
     <MainHero />
+
+    <aside className="w-full mt-6 ">
+      <h4 className="font-extrabold text-[32px] leading-[130%] text-base-subtitle mb-Bebida feita com chocolate dissolvido no leite quente e café10 ">
+        Nossos cafés
+      </h4>
+
+      <div className="grid grid-rows-4 grid-cols-4 gap-[32px] mt-[54px]">
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+        <CoffeeCard
+          coffee={{
+            image: CoffeeImage,
+            chips: ["Expresso", "Com leite"],
+            title: "Chocolate Quente",
+            price: 10,
+            subtitle:
+              "Bebida feita com chocolate dissolvido no leite quente e café",
+          }}
+        />
+      </div>
+    </aside>
   </Container>
 );
 
