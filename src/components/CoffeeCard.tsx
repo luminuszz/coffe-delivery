@@ -1,24 +1,10 @@
-import CoffeeImage from "@assets/coffe.png";
+import ControlQuantity from "@components/ControlQuantity";
 import { Minus, Plus, ShoppingCart } from "phosphor-react";
 
 const Chip = ({ name }: { name: string }) => (
   <span className="text-yellow-dark bg-yellow-light py-1 px-2  rounded-2xl font-bold font-primary text-[12px] uppercase">
     {name}
   </span>
-);
-
-const ControlQuantity = ({ value }: { value: number }) => (
-  <div className="flex space-x-[4px] items-center justify-between w-[72px] h-[38px] bg-base-button-add p-[8px] rounded-md">
-    <button type="button" className="outline-0 border-0 text-purple-dark">
-      <Minus color="#4B2995" weight="fill" width="14px" height="14px" />
-    </button>
-
-    <strong className="text-purple-dark">{value}</strong>
-
-    <button type="button" className="outline-0 border-0 text-purple-dark">
-      <Plus color="#4B2995" weight="fill" width="14px" height="14px" />
-    </button>
-  </div>
 );
 
 const PurchaseButton = () => (
@@ -44,7 +30,7 @@ const CoffeeCard = ({ coffee }: Props) => (
   <article className="w-[256px] h-[310px] bg-base-card  px-[24px] mb-10 rounded-bl-[36px] rounded-br-[6px] rounded-tl-[6px] rounded-tr-[36px] flex flex-col justify-between pb-[20px]">
     <div className="flex flex-col space-y-2.5 items-center">
       <img
-        src={CoffeeImage}
+        src={`src/assets/coffees/${coffee.image}`}
         alt="coffee"
         className="w-[120px] h-[120px] mt-[-25px] "
       />
