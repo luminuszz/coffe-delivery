@@ -1,4 +1,5 @@
 export type Coffe = {
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -8,6 +9,7 @@ export type Coffe = {
 
 const data: Coffe[] = [
   {
+    id: "1",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -16,6 +18,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "2",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -24,6 +27,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "3",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -32,6 +36,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "4",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -40,6 +45,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "5",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -48,6 +54,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "6",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -56,6 +63,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "7",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água
@@ -64,6 +72,7 @@ const data: Coffe[] = [
     price: 10,
   },
   {
+    id: "8",
     title: "Expresso Tradicional",
     chips: ["Expresso", "Tradicional"],
     description: `O tradicional café feito com água

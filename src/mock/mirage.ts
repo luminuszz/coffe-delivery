@@ -5,6 +5,7 @@ import Schema from "miragejs/orm/schema";
 import coffeesMock, { Coffe } from "./coffees.mock";
 
 const CoffeeModel = Model.extend<Coffe>({
+  id: "",
   title: "",
   chips: [],
   description: "",
