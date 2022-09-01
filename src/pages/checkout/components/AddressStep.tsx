@@ -1,5 +1,18 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { MapPinLine } from "phosphor-react";
-import { InputHTMLAttributes, ReactNode } from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  InputHTMLAttributes,
+  LegacyRef,
+  ReactNode,
+} from "react";
+import { Ref, useForm } from "react-hook-form";
+import { FieldErrors } from "react-hook-form/dist/types/errors";
+import { UseFormRegister } from "react-hook-form/dist/types/form";
+import { z } from "zod";
+
+import { CheckoutFormSchema } from "../checkout.page";
 
 const AddressInformation = () => (
   <header className="flex flex-row space-x-2">
@@ -32,7 +45,10 @@ const Control = ({ width, children }: ControlProps) => (
   </div>
 );
 
-const Input = ({ width, error, ...props }: InputProps) => (
+const InputComponent = (
+  { width, error, ...props }: InputProps,
+  ref: LegacyRef<HTMLInputElement>
+) => (
   <Control width={width || "100%"}>
     <input
       className="
@@ -47,12 +63,20 @@ const Input = ({ width, error, ...props }: InputProps) => (
       rounded-[4px]
         "
       {...props}
+      ref={ref}
     />
     {error && <span className="text-red-400 text-[15px] mt-2">{error}</span>}
   </Control>
 );
 
-const AddressStep = () => (
+const Input = forwardRef(InputComponent);
+
+type Props = {
+  register: UseFormRegister<CheckoutFormSchema>;
+  errors: FieldErrors<CheckoutFormSchema>;
+};
+
+const AddressStep = ({ register, errors }: Props) => (
   <>
     <h1 className="font-bold text-[18px] text-base-subtitle leading-[130%]">
       Complete seu pedido
@@ -63,24 +87,58 @@ const AddressStep = () => (
         <AddressInformation />
 
         <div className="flex flex-col justify-center items-start mt-[32px]  space-y-[16px]">
-          <Input placeholder="CEP" width="200px" />
+          <Input
+            placeholder="CEP *"
+            width="200px"
+            {...register("cep")}
+            error={errors.cep?.message}
+          />
 
-          <Input width="full" placeholder="Rua" name="address" />
+          <Input
+            width="full"
+            placeholder="Rua *"
+            {...register("street")}
+            error={errors.street?.message}
+          />
 
           <div className="space-x-[12px] flex flex-row w-full">
-            <Input width="200px" placeholder="Número" name="address" />
-            <Input width="full" placeholder="Complemento" name="address" />
+            <Input
+              width="200px"
+              placeholder="Número *"
+              {...register("number")}
+              error={errors.number?.message}
+            />
+            <Input
+              width="full"
+              placeholder="Complemento"
+              {...register("complement")}
+              error={errors.complement?.message}
+            />
           </div>
 
           <div className="space-x-[12px] flex flex-row w-full flex-1">
-            <Input width="200px" placeholder="Bairro" />
-            <Input width="full" placeholder="Cidade" />
-            <Input width="60px" placeholder="UF" />
+            <Input
+              width="200px"
+              placeholder="Bairro *"
+              {...register("district")}
+              error={errors.district?.message}
+            />
+            <Input
+              width="full"
+              placeholder="Cidade *"
+              {...register("city")}
+              error={errors.city?.message}
+            />
+            <Input
+              width="60px"
+              placeholder="UF * "
+              {...register("state")}
+              error={errors.state?.message}
+            />
           </div>
         </div>
       </div>
     </div>
   </>
 );
-
 export default AddressStep;

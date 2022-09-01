@@ -1,5 +1,7 @@
 import { atom, selector, selectorFamily } from "recoil";
 
+import { Coffe } from "../mock/coffees.mock";
+
 type Product = {
   product_id: string;
   quantity: number;
@@ -67,4 +69,45 @@ export const currentProductStateQuantity = selectorFamily<number, string>({
         set(cartState, newProducts);
       }
     },
+});
+
+type ProductCart = Coffe & { quantity: number };
+
+export const checkoutCardProductsState = atom({
+  key: "checkoutCardProductsStateAtom",
+  default: selector<ProductCart[]>({
+    key: "checkoutCardProductsStateAtom/checkoutCardProductsStateSelect",
+    get: async ({ get }) => {
+      const storagedProducts = get(cartState);
+
+      const { coffees } = (await fetch("/api/coffees").then((res) =>
+        res.json()
+      )) as { coffees: ProductCart[] };
+
+      const products: ProductCart[] = [];
+
+      coffees.forEach((coffee) => {
+        storagedProducts.forEach((product) => {
+          if (coffee.id === product.product_id) {
+            products.push({ ...coffee, quantity: product.quantity });
+          }
+        });
+      });
+
+      return products;
+    },
+  }),
+});
+
+export const cartTotalPriceState = selector({
+  key: "cartTotalPriceStateSelector",
+  get: async ({ get }) => {
+    const cartProducts = get(checkoutCardProductsState);
+
+    return cartProducts.reduce((acc, product) => {
+      acc += product.price * product.quantity;
+
+      return acc;
+    }, 0);
+  },
 });

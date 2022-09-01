@@ -1,6 +1,8 @@
 import CoffeImage from "@assets/coffe.png";
 import ControlQuantity from "@components/ControlQuantity";
+import { cartTotalPriceState } from "@store/cartStore";
 import { Trash } from "phosphor-react";
+import { useRecoilValueLoadable } from "recoil";
 
 const CartItem = () => (
   <div className="flex w-full flex-1 flex-row items-start space-x-[50px] min-w-368px border-b-[1px] border-b-[#E6E5E5] pb-[24px]">
@@ -62,55 +64,64 @@ const CheckoutValueTableItem = ({
   </div>
 );
 
-const CheckoutCart = () => (
-  <>
-    <h1 className="font-bold text-[18px] text-base-subtitle leading-[130%]">
-      Cafés selecionados
-    </h1>
-    <article
-      className=" w-full mt-[15px] max-w-448px
+type Props = {
+  onSubmit: () => void;
+};
+
+const CheckoutCart = ({ onSubmit }: Props) => {
+  const totalPrice = useRecoilValueLoadable(cartTotalPriceState);
+
+  return (
+    <>
+      <h1 className="font-bold text-[18px] text-base-subtitle leading-[130%]">
+        Cafés selecionados
+      </h1>
+      <article
+        className=" w-full mt-[15px] max-w-448px
          bg-base-card
         rounded-[6px]
         rounded-tr-[44px]
         rounded-bl-[44px]"
-    >
-      <div
-        className=" p-[40px] w-full space-y-[24px]
+      >
+        <div
+          className=" p-[40px] w-full space-y-[24px]
 
       "
-      >
-        <CartItem />
-        <CartItem />
+        >
+          <CartItem />
+          <CartItem />
 
-        <footer className="flex flex-col items-center space-y-[12px] ">
-          <CheckoutValueTableItem label="Total de itens" value="R$ 29,75" />
-          <CheckoutValueTableItem label="Entrega" value="R$ 3,50" />
+          <footer className="flex flex-col items-center space-y-[12px] ">
+            <CheckoutValueTableItem label="Total de itens" value="R$ 29,75" />
+            <CheckoutValueTableItem label="Entrega" value="R$ 3,50" />
 
-          <div className="flex justify-between items-start flex-1 w-full">
-            <strong className="text-[20px] text-base-subtitle text-left">
-              Total
-            </strong>
-            <strong className="text-[20px] leading-[130%] font-extrabold text-base-subtitle">
-              R$ 32,25
-            </strong>
-          </div>
+            <div className="flex justify-between items-start flex-1 w-full">
+              <strong className="text-[20px] text-base-subtitle text-left">
+                Total
+              </strong>
+              <strong className="text-[20px] leading-[130%] font-extrabold text-base-subtitle">
+                R$ 32,25
+              </strong>
+            </div>
 
-          <button
-            type="submit"
-            className="
+            <button
+              onClick={onSubmit}
+              type="submit"
+              className="
             mt-[12px]
             w-full h-[46px] bg-yellow text-white font-bold rounded-[6px] uppercase
             text-center
             hover:bg-yellow-dark
             hover:duration-500
             "
-          >
-            confirmar pedido
-          </button>
-        </footer>
-      </div>
-    </article>
-  </>
-);
+            >
+              confirmar pedido
+            </button>
+          </footer>
+        </div>
+      </article>
+    </>
+  );
+};
 
 export default CheckoutCart;

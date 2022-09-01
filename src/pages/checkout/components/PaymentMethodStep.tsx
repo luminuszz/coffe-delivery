@@ -1,22 +1,36 @@
 import { CurrencyDollar, CreditCard, Icon, Bank, Money } from "phosphor-react";
+import { forwardRef, InputHTMLAttributes, LegacyRef } from "react";
+import { UseFormRegister } from "react-hook-form/dist/types/form";
 
-type PaymentTypeOptionProps = {
+import { CheckoutFormSchema, PaymentMethod } from "../checkout.page";
+
+type PaymentTypeOptionProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
-  name: string;
+  id: string;
   currentIcon: Icon;
 };
 
-const PaymentTypeOption = ({
-  name,
-  label,
-  currentIcon: CurrentIcon,
-}: PaymentTypeOptionProps) => (
+const PaymentTypeOptionComponent = (
+  { id, currentIcon: CurrentIcon, label, ...props }: PaymentTypeOptionProps,
+  ref: LegacyRef<HTMLInputElement>
+) => (
   <div className="w-full">
-    <input hidden className="peer" type="radio" id={name} name="paymentType" />
+    <input
+      hidden
+      className="peer"
+      type="radio"
+      id={id}
+      ref={ref}
+      value={id}
+      {...props}
+    />
     <label
-      htmlFor={name}
+      htmlFor={id}
       className="
-    flex items-center
+    flex
+    flex-row
+    items-center
+    justify-start
     cursor-pointer
     w-full max-w-[178px] h-[51px]
     bg-base-button-add
@@ -27,6 +41,7 @@ const PaymentTypeOption = ({
     hover:duration-500
     peer-checked:border-purple-dark
     peer-checked:border-[1px]
+    flex-wrap
     "
     >
       <CurrentIcon
@@ -40,11 +55,13 @@ const PaymentTypeOption = ({
   </div>
 );
 
+const PaymentTypeOption = forwardRef(PaymentTypeOptionComponent);
+
 const PaymentInformation = () => (
   <header className="flex flex-row space-x-2">
     <CurrencyDollar color="#8047F8" width="22px" height="22px" />
 
-    <div className=" flex flex-col items-start justify-start">
+    <div className="flex-nowrap flex flex-col items-start justify-start">
       <h3 className="font-normal text-[16px] leading-[130%] text-base-subtitle">
         Pagamento
       </h3>
@@ -55,23 +72,35 @@ const PaymentInformation = () => (
   </header>
 );
 
-const PaymentMethodStep = () => (
+type Props = {
+  register: UseFormRegister<CheckoutFormSchema>;
+};
+
+const PaymentMethodStep = ({ register }: Props) => (
   <div className="max-w-[640px] w-full   mt-[15px]">
     <div className="p-[40px] w-full bg-base-card flex flex-col  rounded-[6px]">
       <PaymentInformation />
 
-      <div className="mt-[32px] flex flex-row space-x-[12px]">
+      <div className="mt-[32px] flex flex-row space-x-[10px]">
         <PaymentTypeOption
           currentIcon={CreditCard}
-          name="creditCard"
           label="Cartão de credito"
+          id={PaymentMethod.CREDIT_CARD}
+          {...register("paymentType")}
         />
         <PaymentTypeOption
+          id={PaymentMethod.DEBIT_CARD}
           currentIcon={Bank}
-          name="debitCard"
           label="Cartão de debito"
+          value={PaymentMethod.DEBIT_CARD}
+          {...register("paymentType")}
         />
-        <PaymentTypeOption currentIcon={Money} name="money" label="Dinheiro" />
+        <PaymentTypeOption
+          id={PaymentMethod.MONEY}
+          currentIcon={Money}
+          label="Dinheiro"
+          {...register("paymentType")}
+        />
       </div>
     </div>
   </div>
