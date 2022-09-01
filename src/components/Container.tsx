@@ -5,7 +5,7 @@ type Props = {
 };
 
 const Container = ({ children }: Props) => (
-  <div className="container mx-auto max-w-[1440px]">{children}</div>
+  <div className=" mx-auto max-w-[1450px] px-[10px]">{children}</div>
 );
 
 export default Container;

@@ -1,8 +1,8 @@
 import ControlQuantity from "@components/ControlQuantity";
-import { Minus, Plus, ShoppingCart } from "phosphor-react";
+import { currentProductStateQuantity } from "@store/cartStore";
+import { ShoppingCart } from "phosphor-react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-
-import { currentProductStateQuantity } from "../store/cartStore";
 
 const Chip = ({ name }: { name: string }) => (
   <span className="text-yellow-dark bg-yellow-light py-1 px-2  rounded-2xl font-bold font-primary text-[12px] uppercase">
@@ -10,14 +10,19 @@ const Chip = ({ name }: { name: string }) => (
   </span>
 );
 
-const PurchaseButton = () => (
-  <button
-    type="button"
-    className="p-[8px] w-[38px] h-[38px] bg-purple-dark outline-0 border-0 rounded-[6px]"
-  >
-    <ShoppingCart weight="fill" width="22px" height="22px" color="white" />
-  </button>
-);
+const PurchaseButton = () => {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      onClick={() => navigate(`/checkout`)}
+      type="button"
+      className="p-[8px] w-[38px] h-[38px] bg-purple-dark outline-0 border-0 rounded-[6px] hover:bg-purple duration-1000 "
+    >
+      <ShoppingCart weight="fill" width="22px" height="22px" color="white" />
+    </button>
+  );
+};
 
 type Props = {
   coffee: {
@@ -35,10 +40,7 @@ const CoffeeCard = ({ coffee }: Props) => {
     currentProductStateQuantity(coffee.id)
   );
 
-  const handleAdd = () => {
-    setQuantity(quantity + 1);
-  };
-
+  const handleAdd = () => setQuantity(quantity + 1);
   const handleRemove = () => setQuantity(quantity - 1);
 
   return (

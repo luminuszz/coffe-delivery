@@ -7,7 +7,7 @@ type Props = {
 };
 
 const ControlQuantity = ({ quantity, onRemove, onAdd }: Props) => (
-  <div className="flex space-x-[4px] items-center justify-between w-[72px] h-[38px] bg-base-button-add p-[8px] rounded-md">
+  <div className="flex space-x-[4px] items-center justify-between w-[90px] h-[38px] bg-base-button-add p-[8px] rounded-md">
     <button
       onClick={onRemove}
       type="button"

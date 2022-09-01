@@ -1,6 +1,9 @@
 import LogoImg from "@assets/logo.svg";
+import { cartQuantityState } from "@store/cartStore";
+import { userAddressState, userState } from "@store/userStore";
 import { MapPin, ShoppingCart } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useEffect, Suspense } from "react";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 
 const ClientLocationIndicator = ({
   locationName,
@@ -15,44 +18,56 @@ const ClientLocationIndicator = ({
   </div>
 );
 
-const CartButton = () => (
-  <button
-    type="button"
-    className="bg-yellow-light w-[33px]  p-[8px] rounded-[5px] outline-0 border-0 w-[38px] h-[38px]"
-  >
-    <ShoppingCart width="22px" height="22px" color="#C47F17" weight="fill" />
-  </button>
-);
+const CartButton = () => {
+  const totalOfProducts = useRecoilValue(cartQuantityState);
+
+  return (
+    <button
+      type="button"
+      className="bg-yellow-light w-[33px]  p-[8px] rounded-[5px] outline-0 border-0 w-[38px] h-[38px] relative"
+    >
+      <ShoppingCart width="22px" height="22px" color="#C47F17" weight="fill" />
+
+      {totalOfProducts > 0 && (
+        <div className=" flex justify-center items-center w-[20px] h-[20px] rounded-full bg-yellow-dark absolute top-[-6px] right-0 left-6">
+          <strong className="text-white text-[13px] text-center  font-extrabold">
+            {totalOfProducts}
+          </strong>
+        </div>
+      )}
+    </button>
+  );
+};
 
 const Header = () => {
-  const [userLocation, setUserLocation] = useState<string>("São Paulo, SP");
+  const [, setUserState] = useRecoilState(userState);
+
+  const userAddress = useRecoilValueLoadable(userAddressState);
 
   useEffect(() => {
     if (!navigator?.geolocation) return;
 
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const { latitude, longitude } = coords;
-      fetch(
-        `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=70ba98c307434d2eb44585cdad0698c7`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          const location = data?.results[0]?.components;
-
-          const place = `${location.city}, ${location.state_code}`;
-
-          setUserLocation(place);
-        })
-        .catch((err) => console.log({ err }));
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      setUserState({
+        location: {
+          lng: coords.longitude,
+          lat: coords.latitude,
+        },
+      });
     });
-  }, []);
+  }, [setUserState]);
+
+  const locationName =
+    userAddress.state === "hasValue" ? userAddress.contents : "Carregando...";
 
   return (
     <header className="flex py-[32px] justify-between items-center px-4">
       <img src={LogoImg} alt="logo " />
 
       <aside className="space-x-2 flex ">
-        <ClientLocationIndicator locationName={userLocation} />
+        <Suspense fallback="Carregando">
+          <ClientLocationIndicator locationName={locationName} />
+        </Suspense>
 
         <CartButton />
       </aside>
