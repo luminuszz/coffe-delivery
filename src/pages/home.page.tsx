@@ -1,12 +1,14 @@
 import CoffeeCard from "@components/CoffeeCard";
 import Container from "@components/Container";
 import MainHero from "@components/MainHero";
-import { useEffect, useState } from "react";
+import { productState } from "@store/productsStore";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 import { Coffe } from "../mock/coffees.mock";
 
 const HomePage = () => {
-  const [products, setProducts] = useState<Coffe[]>([]);
+  const [products, setProducts] = useRecoilState(productState);
 
   useEffect(() => {
     fetch("/api/coffees")

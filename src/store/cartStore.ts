@@ -1,3 +1,4 @@
+import { productState } from "@store/productsStore";
 import { atom, selector, selectorFamily } from "recoil";
 
 import { Coffe } from "../mock/coffees.mock";
@@ -43,65 +44,71 @@ export const currentProductStateQuantity = selectorFamily<number, string>({
   set:
     (id) =>
     ({ get, set }, newValue) => {
-      const product = get(cartState).find(
-        ({ product_id }) => product_id === id
+      const currentProductsInCart = get(cartState);
+
+      const product = currentProductsInCart.find(
+        (item) => item.product_id === id
       );
 
       const newQuantity = Number(newValue);
 
-      if (!product) {
-        const newProduct = [
-          ...get(cartState),
-          { product_id: id, quantity: newQuantity },
-        ];
-        set(cartState, newProduct);
-      }
+      let newProducts: Product[] = [];
 
-      if (product) {
-        const newProducts = get(cartState).map((p) => {
-          if (p.product_id === id && newQuantity >= 0) {
-            return { ...p, quantity: newQuantity };
+      if (!product) {
+        newProducts = [
+          ...currentProductsInCart,
+          { product_id: id, quantity: newQuantity >= 0 ? newQuantity : 0 },
+        ];
+      } else {
+        if (newQuantity <= 0) {
+          set(
+            cartState,
+            currentProductsInCart.filter((item) => item.product_id !== id)
+          );
+
+          return;
+        }
+
+        newProducts = currentProductsInCart.map((item) => {
+          if (item.product_id === id) {
+            return { ...item, quantity: newQuantity >= 0 ? newQuantity : 0 };
           }
 
-          return p;
+          return item;
         });
-
-        set(cartState, newProducts);
       }
+
+      set(cartState, newProducts);
     },
 });
 
 type ProductCart = Coffe & { quantity: number };
 
-export const checkoutCardProductsState = atom({
+export const checkoutCardProductsState = atom<ProductCart[]>({
   key: "checkoutCardProductsStateAtom",
   default: selector<ProductCart[]>({
     key: "checkoutCardProductsStateAtom/checkoutCardProductsStateSelect",
-    get: async ({ get }) => {
-      const storagedProducts = get(cartState);
+    get: ({ get }) => {
+      const allProducts = get(productState);
+      const currentProductsInCart = get(cartState);
 
-      const { coffees } = (await fetch("/api/coffees").then((res) =>
-        res.json()
-      )) as { coffees: ProductCart[] };
+      const parsedProducts: ProductCart[] = [];
 
-      const products: ProductCart[] = [];
-
-      coffees.forEach((coffee) => {
-        storagedProducts.forEach((product) => {
-          if (coffee.id === product.product_id) {
-            products.push({ ...coffee, quantity: product.quantity });
-          }
+      allProducts.forEach((item) => {
+        currentProductsInCart.forEach((product) => {
+          item.id === product.product_id &&
+            parsedProducts.push({ ...item, quantity: product.quantity });
         });
       });
 
-      return products;
+      return parsedProducts;
     },
   }),
 });
 
 export const cartTotalPriceState = selector({
   key: "cartTotalPriceStateSelector",
-  get: async ({ get }) => {
+  get: ({ get }) => {
     const cartProducts = get(checkoutCardProductsState);
 
     return cartProducts.reduce((acc, product) => {
