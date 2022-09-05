@@ -5,8 +5,10 @@ import {
   cartTotalPriceState,
 } from "@store/cartStore";
 import { Trash } from "phosphor-react";
+import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
+import { getUserCart } from "../../../services/cartService";
 import formatNumberToCurrency from "../../../utils/formatNumberToCurrency";
 
 type CardItemProps = {

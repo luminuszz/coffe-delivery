@@ -39,5 +39,6 @@ module.exports = {
     camelcase: "off",
     "react/jsx-props-no-spreading": "off",
     "no-unused-expressions": "off",
+    "no-unused-vars" : "off",
   },
 };

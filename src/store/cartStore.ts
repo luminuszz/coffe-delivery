@@ -9,6 +9,12 @@ type Product = {
 };
 
 const localStorageeKey = "coffee@cart";
+const localStorageCartId = "coffee@cart_id";
+
+export const cartStateId = atom({
+  key: "cartStateId",
+  default: localStorage.getItem(localStorageCartId) || "1",
+});
 
 export const cartState = atom<Product[]>({
   default: [],

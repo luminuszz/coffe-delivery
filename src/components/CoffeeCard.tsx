@@ -52,8 +52,9 @@ const CoffeeCard = ({ coffee }: Props) => {
           className="w-[120px] h-[120px] mt-[-25px] "
         />
         <div className="flex flex-row flex-wrap justify-center space-x-1 space-y-1 items-end">
-          <Chip name="Tradicional" />
-          <Chip name="Com leite" />
+          {coffee.chips.map((chip) => (
+            <Chip name={chip} />
+          ))}
         </div>
 
         <strong className="font-bold text-[20px] leading-[130%] text-base-subtitle">

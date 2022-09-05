@@ -1,27 +1,13 @@
 import CoffeeCard from "@components/CoffeeCard";
 import Container from "@components/Container";
 import MainHero from "@components/MainHero";
-import { productState } from "@store/productsStore";
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
 
+import { useFetchApi } from "../hooks/useFetchApi";
 import { Coffe } from "../mock/coffees.mock";
+import { fetchCoffees } from "../services/fetchCoffees";
 
 const HomePage = () => {
-  const [products, setProducts] = useRecoilState(productState);
-
-  useEffect(() => {
-    fetch("/api/coffees")
-      .then((res) => res.json())
-      .then((data) => {
-        const parsedData = data.coffees.map((coffee: Coffe) => ({
-          ...coffee,
-          subtitle: coffee.description,
-        }));
-
-        setProducts(parsedData);
-      });
-  }, [setProducts]);
+  const { data: products } = useFetchApi<Coffe[]>(fetchCoffees, "api/coffees");
 
   return (
     <Container>
@@ -33,7 +19,7 @@ const HomePage = () => {
         </h4>
 
         <div className="grid grid-rows-4 grid-cols-4 gap-[32px] mt-[54px]">
-          {products.map((product) => (
+          {products?.map((product) => (
             <CoffeeCard
               key={product.id}
               coffee={{ ...product, subtitle: product.description }}
